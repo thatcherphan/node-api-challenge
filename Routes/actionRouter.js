@@ -3,7 +3,7 @@ const actionDb = require("../data/helpers/actionModel");
 
 const router = express.Router();
 
-router.get("/:id", validateUserId, (req, res) => {
+router.get("/:id", validateId, (req, res) => {
     const id = req.params.id;
 
     actionDb.get(id)
@@ -20,7 +20,7 @@ router.get("/:id", validateUserId, (req, res) => {
         })
 })
 
-router.post("/:id", validateUserId, validateAction, (req, res) => {
+router.post("/:id", validateId, validateAction, (req, res) => {
     const id = req.params.id;
 
     actionDb.insert(req.body)
@@ -39,7 +39,7 @@ router.post("/:id", validateUserId, validateAction, (req, res) => {
         })
 })
 
-router.put("/:id", validateUserId, validateAction, (req, res) => {
+router.put("/:id", validateId, validateAction, (req, res) => {
     const {id} = req.params;
     const changes = req.body;
 
@@ -53,7 +53,7 @@ router.put("/:id", validateUserId, validateAction, (req, res) => {
 
 })
 
-router.delete("/:id", validateUserId, (req, res) => {
+router.delete("/:id", validateId, (req, res) => {
     const {id} = req.params;
 
     actionDb.remove(id)
@@ -68,7 +68,7 @@ router.delete("/:id", validateUserId, (req, res) => {
 
 
 //Middleware
-function validateUserId(req, res, next) {
+function validateId(req, res, next) {
     // do your magic!
     const {id} = req.params;
   
@@ -78,11 +78,11 @@ function validateUserId(req, res, next) {
             req.user = user;
             next();
           } else {
-            res.status(400).json({ message: "Invalid user id" })
+            res.status(400).json({ message: "Invalid id" })
           }
       })
       .catch(err => {
-        res.status(500).json({message: "error getting user with this id", err})
+        res.status(500).json({message: "error getting information with this id", err})
       })
   }
 
