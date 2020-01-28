@@ -87,9 +87,12 @@ function validateId(req, res, next) {
   }
 
 function validateAction(req, res, next){
+    const {description} = req.body;
 
     if (!req.body.project_id || !req.body.description) {
         res.status(400).json({ message: 'Please add valid project id and description' })
+    } else if (description.length > 128) {
+        res.status(400).json({message: "This description is longer than 128 characters."})
     } else {
         next()
     }
